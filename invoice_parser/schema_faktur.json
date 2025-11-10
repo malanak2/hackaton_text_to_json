@@ -1,0 +1,42 @@
+{
+  "faktura": {
+    	"invoice_num": "string",          // Jedinečné číslo faktury
+    	"IC": "string",                   // IČ firmy
+    	"DIC": "string",                  // DIČ firmy
+
+    	"sklad": {
+      	"nazev": "string",            	// Název/ID položky
+      	"mnozstvi": "number",           // Množství
+      	"unit_price": "number",         // Jednotková cena bez DPH
+      	"total_price": "number"         // Celková cena bez DPH
+    	},
+
+    	"parovaci_udaje": {
+      	"IC": "string",                 // IČ na faktuře
+      	"DIC": "string",                // DIČ na faktuře
+      	"ORDER_NUM": "string"           // Číslo objednávky / párovací údaj
+    	},
+
+    	"ucetnictvi": {
+      	"cislo_uctu_dodavatele": "string", // učet prodejce
+      	"mena": "string",               // např. EUR, CZK
+      	"iban_mezinarodni_cislo_uctu": "string",	//mezinarodni čislo učtu
+      	"swift": "string",				// duležité při mezinarodnich transakci
+      	"total_amount": "number", 		// zdaněná částka v korunach
+			"total_amount_in_paying_currency" : "number",	//zdaněná částka v mena line 22
+      	"dph_sazba": "number",          // v %
+      	"dph_mene_platby": "number", // v častka danně v mena line 22
+      	"dph_czk": "number",		// častka v korunach
+      	"dph_zaklad": "number", 	//častka bez dane dan jse udava z teto častky
+      	"platebni_podminky": "string",   //splatnost do kolika dni/podminky platby
+      	"platebni_instrukce": "string", // instrukce např. platba převodem
+      	"splatnost": "date",            // YYYY-MM-DD
+      	"DUZP": "date"                  // YYYY-MM-DD
+    	},
+
+    	"intrastat": { // jen nekdy když je z jine země když je v eu muže tam byt eu
+      	"tarifni_kod": "string",
+      	"zeme_puvodu": "string"
+    	}
+  }
+}

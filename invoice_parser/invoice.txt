@@ -1,0 +1,75 @@
+
+
+               Prijem               na        sklad 
+
+              Intrastat 
+                                                                                   OMRON 
+
+  Invoice                                                                           Faktura - Daňový doklad 
+  Omron                spol. s r.o. 
+  Boudnikova 206/1 
+  CZ-180 00 Praha 8 
+ Česká republka 
+ IČ: 6307 6985 DIČ: CZ63076985 
+                                                                                    UniCredit Bank (CZK): 1162789037/2700 
+ Tel: +420 234 )76 010                                                              J.P. Morgan (EUR): 
+                                                                                    IBAN: LU640670007000047697 
+ Email: office-c@omron.com Internet: www.omron.cz                                   SWIFT: CHASLULX 
+ Ship to               Dodací adresa                 42259890                      Invoice to            Fakturační adresa 
+
+         KOMFI spol. s r.o.                                                                KOMFI spol. s r.o. 
+         Dvorakova 1001                                                                    Dvořákova 1001 
+         tel .: +420 465352711                                                             56301 LANŠKROUN 
+         56301 LANSKROUN                                                                   Czech Republic 
+         Czech Republic 
+
+ Contact person                                                                     Please quote in all correspondence                     Page 1 of 1 
+ Kontaktní osoba                                                                    Prosím označte v korespondenci                         Strana 1 z 1 
+ Returns to/Reply to 
+ Vrátit/Odpovědět 
+                                                                                     Customer number            Invoice number            Invoice date 
+ Mode of transport                  Silnice 
+ Doprava                                                                               Číslo zákazníka            Faktura číslo         Vystavení faktury 
+ Inco terms                         Dodáno clo placeno 
+                                                                                          42259889                24000081 RI                05-04-24 
+ Incoterms 
+
+    Line                                Description                                  Delivery     Quantity      Unit price     Disc.   VAT     Total price 
+   Řádek                                    Popis                                    Dodávka      Množství      Jednotková     Sleva DPH      Cena celkem 
+
+ Your order nº              69281/390656      Order date      26-02-24     Acknowledgement nº        16189450 SO      Delivery note           24808246 
+ Vaše objednávka č.                           Datum objednávky             Potvrzení objednávky č.                    Dodací list 
+     1.000 E2B-S08LN02-WP-B2 2M OMI                                                05-04-24                 2       14,8020             21%           29,60 
+            Snímače přiblížení - indukční, řada E2B 
+            Tarifní kód 8536.5080.90 Země původu Indonesia 
+     1.001 RECYCLING FEE                                                           05-04-24                 2         0,0179            21%            0,04 
+            Jiné poplatky 
+            Tarifní kód . Země původu Czech Republic 
+                                                                                                        Sub total               EUR                   29,64 
+                                                                                                        Mezisoučet 
+
+ Your order nº              69298/230388      Order date      28-02-24     Acknowledgement nº        16189488 SO      Delivery note          24808246 
+ Vaše objednávka č.                           Datum objednávky             Potvrzení objednávky č.                    Dodací list 
+     1.000 E2B-S08LN02-WP-B1 2M OMI                                                05-04-24                5        14,8020             21%          74,01 
+            Snímače přiblížení - indukční, řada E2B 
+            Tarifní kód 8536.5080.90 Země původu Indonesia 
+     1.001 RECYCLING FEE                                                           05-04-24                 5        0,0179             21%            0,09 
+            Jiné poplatky 
+            Tarifní kód . Země původu Czech Republic 
+                                                                                                       Sub total                EUR                  74,10 
+                                                                                                       Mezisoučet 
+
+ Message             Poznámka 
+
+VAT number                 Taxable amount             VAT                EUR      CZK            Exchange rate                 Total amount 
+ DIČ                       Daňový základ              DPH                                        Směnný kurz                   Celkem 
+ CZ46504508                103,74 EUR                        21,000 % 21,79 551,51               0395100                       125,53 EUR 
+                           2.625,66 CZK                                                                                        3.177,17 CZK 
+ Due date                  Terms of payment          Splatnost 45 dní 
+ Datum splatnosti          Platební podmínky 
+20-05-24                   Payment Instrument        Převodní příkaz                                          DUZP/Datum přijetí platby          05-04-24 
+                           Platební instrukce 
+Tato smlouva byla uzavřena na základě Všeobecných prodejních podmínek OMRON Electronics spol. s r.o., které jsou v elektronické podobě na www.omron.cz. Omron 
+Electronics spol. s r.o. není vázána jinými prodejními podmínkami navrženými druhou stranou, které jsou tímto vyloučeny. Firma Omron Electronics spol. s r.o. je zapsána v OR 
+MěS v Praze, odd. C vložka 36442 
+<<<

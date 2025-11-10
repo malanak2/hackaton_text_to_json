@@ -1,0 +1,38 @@
+{
+  "faktura": {
+    "invoice_num": "24000081",
+    "IC": "63076985",
+    "DIC": "CZ63076985",
+    "sklad": {
+      "nazev": null,
+      "mnozstvi": 7,
+      "unit_price": 14.802,
+      "total_price": 103.74
+    },
+    "parovaci_udaje": {
+      "IC": "63076985",
+      "DIC": "CZ63076985",
+      "ORDER_NUM": "69281/390656"
+    },
+    "ucetnictvi": {
+      "cislo_uctu_dodavatele": "1162789037/2700",
+      "mena": "CZK",
+      "iban_mezinarodni_cislo_uctu": null,
+      "swift": "CHASLULX",
+      "total_amount": 125.53,
+      "total_amount_in_paying_currency": 125.53,
+      "dph_sazba": 21,
+      "dph_mene_platby": 21.79,
+      "dph_czk": 551.51,
+      "dph_zaklad": 103.74,
+      "platebni_podminky": "45 dní",
+      "platebni_instrukce": null,
+      "splatnost": "2024-05-20",
+      "DUZP": "2024-04-05"
+    },
+    "intrastat": {
+      "tarifni_kod": "8536.5080.90",
+      "zeme_puvodu": "Indonesia"
+    }
+  }
+}
