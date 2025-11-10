@@ -214,8 +214,8 @@ def apply_fix_or_regenerate(invoice_text: str, json_payload: dict, critique: dic
 # -------------------------
 # Pipeline
 # -------------------------
-
-def run_pipeline() -> dict:
+import json
+def run_pipeline(txt_b) -> dict:
     # 1) Demo quick usage (sanity check against the API)
     demo = client.chat.completions.create(
         model=HF_MODEL,
@@ -225,10 +225,8 @@ def run_pipeline() -> dict:
     )
     print("Demo (capital of France) →", demo.choices[0].message.content, ", this mean that the API of a chatbot is reachable.")
 
-    # 2) Read + clean invoice
-    with open(INVOICE_FILE, "r", encoding="utf-8") as f:
-        invoice_raw = f.read()
-    invoice_text = clean_text(invoice_raw)
+    txt = txt_b.decode("utf-8")
+    invoice_text = clean_text(txt)
 
     # 3) Load the schema text once (for prompting) and object (for validation)
     with open(SCHEMA_FILE, "r", encoding="utf-8") as s:
@@ -268,6 +266,15 @@ def run_pipeline() -> dict:
 
     return payload
 
+from flask import Flask, request
+app = Flask(__name__)
+@app.route('/', methods=['POST'])
+def parse_txt():
+    print("Received request")
+    data = request.data
+    jsonD = json.dumps(run_pipeline(data))
+    print(jsonD)
+    return jsonD
 
 if __name__ == "__main__":
-    run_pipeline()
+    app.run()
