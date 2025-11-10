@@ -5,7 +5,7 @@ from typing import Tuple, Optional
 from jsonschema import validate, ValidationError
 
 # (Optional) Remove this line in real use; it's just for local testing.
-os.environ["HF_TOKEN"] = "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"
+os.environ["HF_TOKEN"] = "tady_vlozit_huggingface_token_anebo_env"
 
 # =========================
 # CONFIG
