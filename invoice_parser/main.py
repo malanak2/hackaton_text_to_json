@@ -221,7 +221,7 @@ def run_pipeline(txt_b) -> dict:
         temperature=global_config.getfloat('GenParams', 'temperature'),
         max_tokens=64,
     )
-    print("Demo (capital of France) →", demo.choices[0].message.content, ", this mean that the API of a chatbot is reachable.")
+    print("Demo (capital of France) →", demo.choices[0].message.content, ", this mean that the API of a chatbot is reachable.", flush=True)
 
     txt = txt_b.decode("utf-8")
     invoice_text = clean_text(txt)
@@ -237,25 +237,25 @@ def run_pipeline(txt_b) -> dict:
     # 5) Validate against JSON Schema (schema-level verification)
     try:
         validate(instance=payload, schema=schema_obj)
-        print("✅ JSON passes schema validation on first pass.")
+        print("✅ JSON passes schema validation on first pass.", flush=True)
     except ValidationError as e:
-        print("⚠️ Schema validation failed on first pass:", e.message)
+        print("⚠️ Schema validation failed on first pass:", e.message, flush=True)
 
     # 6) LLM Critique loop (semantic/business verification)
     for i in range(global_config.getint('GenParams', 'max_critique_passes')):
         crit = critique_json(invoice_text, payload, global_config.getint('GenParams', 'max_critique_retries'))
-        print(f"Critique pass {i+1}:", crit)
+        print(f"Critique pass {i+1}:", crit, flush=True)
         if bool(crit.get("valid", False)) and crit.get("action", "accept") == "accept":
-            print("✅ Critique accepted the JSON.")
+            print("✅ Critique accepted the JSON.", flush=True)
             break
         # otherwise fix or regenerate
         payload = apply_fix_or_regenerate(invoice_text, payload, crit)
         # re-validate after fix/regenerate
         try:
             validate(instance=payload, schema=schema_obj)
-            print("✅ JSON passes schema validation after fix/regenerate.")
+            print("✅ JSON passes schema validation after fix/regenerate.", flush=True)
         except ValidationError as e:
-            print("⚠️ Schema validation error after fix/regenerate:", e.message)
+            print("⚠️ Schema validation error after fix/regenerate:", e.message, flush=True)
 
     return payload
 
@@ -263,10 +263,10 @@ from flask import Flask, request
 app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def parse_txt():
-    print("Received request")
+    print("Received request", flush=True)
     data = request.data
     jsonD = json.dumps(run_pipeline(data))
-    print(jsonD)
+    print(jsonD, flush=True)
     return jsonD
 
 if __name__ == "__main__":
