@@ -14,6 +14,7 @@ if not my_file.is_file():
     config['Files'] = {'file': 'invoice.txt',
                             'schema': 'schema_faktur_ciste.json', 'output_json': 'parsed_invoice.json'}
     config['GenParams'] = {'max_new_tokens': '768', 'temperature': '0.0', 'max_json_retries': '3', 'max_critique_passes': '0', 'max_critique_retries': '0'}
+    config['Misc'] = {'debug': 'false'}
 # Write the configuration to a file
     with open(confName, 'w') as configfile:
         config.write(configfile)
@@ -271,4 +272,4 @@ def parse_txt():
 if __name__ == "__main__":
     if (global_config.get('HuggingFace', 'token') == 'insert_your_token_here'):
         raise ValueError("Please set your HuggingFace token in " + confName + " before running.")
-    app.run(host="0.0.0.0", port=5000, use_reloader=False)
+    app.run(debug=global_config.getboolean('Misc', 'debug'), host="0.0.0.0", port=5000, use_reloader=False)
