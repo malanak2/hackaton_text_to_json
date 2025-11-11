@@ -1,42 +1,38 @@
 {
-  "faktura": {
-    	"invoice_num": "string",
-    	"IC": "string",
-    	"DIC": "string",
-
-    	"sklad": {
-      	"nazev": "string",
-      	"mnozstvi": "number",
-      	"unit_price": "number",
-      	"total_price": "number"
-    	},
-
-    	"parovaci_udaje": {
-      	"IC": "string",
-      	"DIC": "string",
-      	"ORDER_NUM": "string"
-    	},
-
-    	"ucetnictvi": {
-      	"cislo_uctu_dodavatele": "string",
-      	"mena": "string",
-      	"iban_mezinarodni_cislo_uctu": "string",
-      	"swift": "string",
-      	"total_amount": "number",
-			"total_amount_in_paying_currency" : "number",
-      	"dph_sazba": "number",
-      	"dph_mene_platby": "number",
-      	"dph_czk": "number",
-      	"dph_zaklad": "number",
-      	"platebni_podminky": "string",
-      	"platebni_instrukce": "string",
-      	"splatnost": "date",
-      	"DUZP": "date"
-    	},
-
-    	"intrastat": {
-      	"tarifni_kod": "string",
-      	"zeme_puvodu": "string"
-    	}
+  "invoice": {
+    "invoiceNum": "string",
+    "storage": [
+      {
+        "name": "string",
+        "amount": "number",
+        "unitPrice": "number",
+        "totalPrice": "number",
+        "orderNumber": "string",
+        "intrastatData": {
+          "tariffCode": "string",
+          "countryOfOrigin": "string"
+        }
+      }
+    ],
+    "pairData": {
+      "IC": "string",
+      "DIC": "string"
+    },
+    "accountingData": {
+      "supplierAccountNumber": "string",
+      "currency": "string",
+      "iban": "string",
+      "swift": "string",
+      "totalAmount": "number",
+      "totalAmountInPayingCurrency": "number",
+      "dphPercent": "number",
+      "dphPayingCurrency": "number",
+      "dphCzk": "number",
+      "dphBaseCzk": "number",
+      "paymentCircumstances": "string",
+      "paymentInstructions": "string",
+      "dueDate": "date",
+      "duzpDate": "date"
+    }
   }
 }
