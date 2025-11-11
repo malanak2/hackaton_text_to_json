@@ -5,7 +5,7 @@ from jsonschema import validate, ValidationError
 import configparser
 
 from pathlib import Path
-confName = "configTxtToJson.ini"
+confName = "conf/configTxtToJson.ini"
 my_file = Path(confName)
 if not my_file.is_file():
     config = configparser.ConfigParser()
