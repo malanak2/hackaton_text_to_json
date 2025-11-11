@@ -271,4 +271,4 @@ def parse_txt():
 if __name__ == "__main__":
     if (global_config.get('HuggingFace', 'token') == 'insert_your_token_here'):
         raise ValueError("Please set your HuggingFace token in " + confName + " before running.")
-    app.run(debug=False, host="0.0.0.0", port=5000, use_reloader=False)
+    app.run(host="0.0.0.0", port=5000, use_reloader=False)
