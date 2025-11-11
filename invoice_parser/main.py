@@ -1,44 +1,38 @@
-import os
 import re
 import json
 from typing import Tuple, Optional
 from jsonschema import validate, ValidationError
+import configparser
 
-# (Optional) Remove this line in real use; it's just for local testing.
-os.environ["HF_TOKEN"] = "tady_vlozit_huggingface_token_anebo_env"
+from pathlib import Path
+confName = "configTxtToJson.ini"
+my_file = Path(confName)
+if not my_file.is_file():
+    config = configparser.ConfigParser()
+# Add sections and key-value pairs
+    config['HuggingFace'] = {'model': 'meta-llama/Meta-Llama-3-8B-Instruct:novita', 'token': 'insert_your_token_here'}
+    config['Files'] = {'file': 'invoice.txt',
+                            'schema': 'schema_faktur_ciste.json', 'output_json': 'parsed_invoice.json'}
+    config['GenParams'] = {'max_new_tokens': '768', 'temperature': '0.0', 'max_json_retries': '3', 'max_critique_passes': '0', 'max_critique_retries': '0'}
+# Write the configuration to a file
+    with open(confName, 'w') as configfile:
+        config.write(configfile)
+#
+# Create a ConfigParser object
+config = configparser.ConfigParser()
 
-# =========================
-# CONFIG
-# =========================
-HF_TOKEN = os.getenv("HF_TOKEN")  # set via env; avoid hardcoding
-if not HF_TOKEN:
-    raise RuntimeError(
-        "HF_TOKEN env var not set. Create one at https://huggingface.co/settings/tokens and export HF_TOKEN."
-    )
+# Read the configuration file
+config.read(confName)
 
-# Choose a model available via Hugging Face OpenAI-compatible router
-HF_MODEL = os.getenv("HF_MODEL", "meta-llama/Meta-Llama-3-8B-Instruct:novita")
-
-INVOICE_FILE = os.getenv("INVOICE_FILE", "invoice.txt")
-SCHEMA_FILE = os.getenv("SCHEMA_FILE", "schema_faktur_ciste.json")
-OUTPUT_JSON = os.getenv("OUTPUT_JSON", "parsed_invoice.json")
-
-# Generation parameters
-MAX_NEW_TOKENS = int(os.getenv("MAX_NEW_TOKENS", "768"))
-TEMPERATURE = float(os.getenv("TEMPERATURE", "0.0"))
-MAX_JSON_RETRIES = int(os.getenv("MAX_JSON_RETRIES", "3"))
-MAX_CRITIQUE_PASSES = int(os.getenv("MAX_CRITIQUE_PASSES", "0"))
-MAX_CRITIQUE_RETRIES = int(os.getenv("MAX_CRITIQUE_RETRIES", "0"))
-
+global_config = config
 # =========================
 # OpenAI client (points to HF Router)
 # =========================
 from openai import OpenAI
 client = OpenAI(
     base_url="https://router.huggingface.co/v1",
-    api_key=HF_TOKEN,
+    api_key=global_config.get('HuggingFace', 'token'),
 )
-
 # -------------------------
 # Helpers
 # -------------------------
@@ -48,7 +42,9 @@ def clean_text(txt: str) -> str:
     return txt.strip()
 
 
-def chat_once(prompt: str, model: str = HF_MODEL) -> str:
+def chat_once(prompt: str, model: str = global_config.get('HuggingFace', 'model')) -> str | None:
+    global global_config
+    global client
     completion = client.chat.completions.create(
         model=model,
         messages=[
@@ -61,8 +57,8 @@ def chat_once(prompt: str, model: str = HF_MODEL) -> str:
             },
             {"role": "user", "content": prompt},
         ],
-        temperature=TEMPERATURE,
-        max_tokens=MAX_NEW_TOKENS,
+        temperature=global_config.getfloat('GenParams', 'temperature'),
+        max_tokens=global_config.getint('GenParams', 'max_new_tokens'),
     )
     return completion.choices[0].message.content
 
@@ -95,7 +91,8 @@ Invoice text:
 """.strip()
 
 
-def generate_json_with_retries(invoice_text: str, schema_text: str, max_attempts: int = MAX_JSON_RETRIES) -> Tuple[dict, str]:
+def generate_json_with_retries(invoice_text: str, schema_text: str, max_attempts: int = global_config.get('GenParams', 
+                                                                                                      'max_json_retries')) -> Tuple[dict, str]:
     """Try up to max_attempts to get valid JSON. Returns (payload, raw_model_text)."""
     last_raw = ""
     last_error = None
@@ -151,7 +148,7 @@ def critique_prompt(invoice_text: str, json_payload: dict) -> str:
     )
 
 
-def critique_json(invoice_text: str, json_payload: dict, max_attempts: int = MAX_CRITIQUE_RETRIES) -> dict:
+def critique_json(invoice_text: str, json_payload: dict, max_attempts: int = global_config.getint('GenParams', 'max_critique_retries')) -> dict:
     """Critique with retries: ensure we get valid JSON back from the model.
     On parse failure, we ask the model to re-output JSON-only and retry up to max_attempts.
     """
@@ -218,9 +215,9 @@ import json
 def run_pipeline(txt_b) -> dict:
     # 1) Demo quick usage (sanity check against the API)
     demo = client.chat.completions.create(
-        model=HF_MODEL,
+        model=global_config.get('HuggingFace', 'model'),
         messages=[{"role": "user", "content": "What is the capital of France?"}],
-        temperature=TEMPERATURE,
+        temperature=global_config.getfloat('GenParams', 'temperature'),
         max_tokens=64,
     )
     print("Demo (capital of France) →", demo.choices[0].message.content, ", this mean that the API of a chatbot is reachable.")
@@ -229,12 +226,12 @@ def run_pipeline(txt_b) -> dict:
     invoice_text = clean_text(txt)
 
     # 3) Load the schema text once (for prompting) and object (for validation)
-    with open(SCHEMA_FILE, "r", encoding="utf-8") as s:
+    with open(global_config.get('Files', 'schema'), "r", encoding="utf-8") as s:
         schema_text = s.read()
         schema_obj = json.loads(schema_text)
 
     # 4) Generate structured JSON with retries (schema-aware prompting)
-    payload, raw_text = generate_json_with_retries(invoice_text, schema_text, MAX_JSON_RETRIES)
+    payload, raw_text = generate_json_with_retries(invoice_text, schema_text, global_config.getint('GenParams', 'max_json_retries'))
 
     # 5) Validate against JSON Schema (schema-level verification)
     try:
@@ -244,8 +241,8 @@ def run_pipeline(txt_b) -> dict:
         print("⚠️ Schema validation failed on first pass:", e.message)
 
     # 6) LLM Critique loop (semantic/business verification)
-    for i in range(MAX_CRITIQUE_PASSES):
-        crit = critique_json(invoice_text, payload, MAX_CRITIQUE_RETRIES)
+    for i in range(global_config.getint('GenParams', 'max_critique_passes')):
+        crit = critique_json(invoice_text, payload, global_config.getint('GenParams', 'max_critique_retries'))
         print(f"Critique pass {i+1}:", crit)
         if bool(crit.get("valid", False)) and crit.get("action", "accept") == "accept":
             print("✅ Critique accepted the JSON.")
@@ -258,11 +255,6 @@ def run_pipeline(txt_b) -> dict:
             print("✅ JSON passes schema validation after fix/regenerate.")
         except ValidationError as e:
             print("⚠️ Schema validation error after fix/regenerate:", e.message)
-
-    # 7) Save final JSON
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as out:
-        json.dump(payload, out, indent=2, ensure_ascii=False)
-    print(f"Saved {OUTPUT_JSON}")
 
     return payload
 
@@ -277,4 +269,6 @@ def parse_txt():
     return jsonD
 
 if __name__ == "__main__":
+    if (global_config.get('HuggingFace', 'token') == 'insert_your_token_here'):
+        raise ValueError("Please set your HuggingFace token in " + confName + " before running.")
     app.run()
